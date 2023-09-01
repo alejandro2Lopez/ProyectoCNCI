@@ -53,6 +53,11 @@ input {
 }
 
 
+.all-cen {
+    text-align: center;
+    display: flex;
+    justify-content: center;
+}
 
 .tab input:focus {
     border: 1px solid #4682B4 !important;

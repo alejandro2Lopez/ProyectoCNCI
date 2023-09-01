@@ -10,29 +10,86 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js" type="text/javascript"></script>
 <script src="/js/site.js" type="text/javascript"></script>
 
+
+
 <div class="container mt-5">
     <div class="row d-flex justify-content-center align-items-center">
         <div class="col-md-10">
-            <form id="regForm">
+
+
+            <form method="post" action="/Home/ProcesarFormulario" y id="regForm">
+                @Html.AntiForgeryToken()
+
+                <label class="custom-control material-checkbox">
+                    <input type="checkbox" class="material-control-input" id="consultaAsesoramiento">
+                    <span class="material-control-indicator"></span>
+                    <span class="material-control-description">Consulta de asesoramiento</span>
+                </label>
+
                 <h1 id="register">Centro Nacional de Control de Intoxicaciones</h1>
                 <h5 id="register">Formulario de Registro de Consultas Toxicologicas</h5>
                 <div class="all-steps" id="all-steps">
-                    <span class="step"><i class="fa fa-user"></i></span>
-                    <span class="step"><i class="fa fa-list"></i></span>
-                    <span class="step"><i class="fa fa-thermometer-three-quarters"></i></span>
-                    <span class="step"><i class="fa fa-ambulance"></i></span>
+                    <div class="form-row">
+                        <div class="col-md-1 all-cen" onclick="selectedItem(0)" id="step1">
+                            
+                        </div>
+                        <div class="col-md-2 all-cen" onclick="selectedItem(0)" id="step1">
+                            <label class="custom-control">
+                                <span class="step"><i class="fa fa-user"></i></span>
+                                <span class="material-control-indicator"></span>
+                                <a>Datos generales y exposición</a>
+                            </label>
+                        </div>
+                        <div class="col-md-2 all-cen" onclick="selectedItem(1)" id="step2">
+                            <label class="custom-control">
+                                <span class="step"><i class="fa fa-list"></i></span>
+                                <span class="material-control-indicator"></span>
+                                <a>Signos y síntomas</a>
+                            </label>
+                        </div>
+                        <div class="col-md-2 all-cen" onclick="selectedItem(2)" id="step3">
+                            <label class="custom-control">
+                                <span class="step"><i class="fa fa-thermometer-three-quarters"></i></span>
+                                <span class="material-control-indicator"></span>
+                                <a>Causas y rutas</a>
+                            </label>
+                        </div>
+                        <div class="col-md-2 all-cen" onclick="selectedItem(3)" id="step4">
+                            <label class="custom-control">
+                                <span class="step"><i class="fa fa-ambulance"></i></span>
+                                <span class="material-control-indicator"></span>
+                                <a>Tratamiento y comentarios</a>
+                            </label>
+                        </div>
+
+                        <div class="col-md-2 all-cen" onclick="selectedItem(4)" id="step5">
+                            <label class="custom-control">
+                                <span class="step"><i class="fa fa-question"></i></span>
+                                <span class="material-control-indicator"></span>
+                                <a>Consulta de asesoramiento</a>
+                            </label>
+                        </div>
+
+                        <div class="col-md-2 all-cen" onclick="selectedItem(5)" id="step6" >
+                            <label class="custom-control">
+                                <span class="step"><i class="fa fa-list-alt"></i></span>
+                                <span class="material-control-indicator"></span>
+                                <a>Resumen</a>
+                            </label>
+                        </div>
+                    </div>
                 </div>
 
 
 
-                <div class="tab">
+                <div class="tab" id="stepC1">
                     <div class="card">
                         <div class="card-header" style="color: #4682B4">DATOS GENERALES</div>
                         <div class="card-body">
                             <div class="form-row">
                                 <div class="form-group col-md-4">
                                     <h6 for="text" class="col-form-label">Tipo de consulta:</h6>
-                                    <select class="form-control form-control-sm" placeholder="Seleccione el tipo de consulta">
+                                    <select class="form-control form-control-sm" placeholder="Seleccione el tipo de consulta" id="tipoConsulta">
                                         <option value="1">Telefonica</option>
                                         <option value="2">Personal</option>
                                         <option value="3">Escrita</option>
@@ -40,24 +97,24 @@
                                 </div>
                                 <div class="form-group col-md-4">
                                     <h6 for="text" class="col-form-label">Fecha y hora de consulta:</h6>
-                                    <input type="datetime-local" class="form-control-sm">
+                                    <input type="datetime-local" class="form-control-sm" id="fechaConsulta" readonly>
                                 </div>
                                 <div class="form-group col-md-4">
                                     <h6 for="text" class="col-form-label">Exp:</h6>
-                                    <input type="text" class="form-control-sm" placeholder="Ingrese el numero de expediente">
+                                    <input type="text" class="form-control-sm" placeholder="Ingrese el numero de expediente" id="exp">
                                 </div>
                             </div>
 
                             <div class="form-row">
                                 <div class="form-group col-md-12">
                                     <h6 for="text" class="col-form-label">Solicitante:</h6>
-                                    <input type="text" class="form-control-sm" placeholder="Ingrese el nombre del solicitante">
+                                    <input type="text" class="form-control-sm" placeholder="Ingrese el nombre del solicitante" id="solicitante">
                                 </div>
                             </div>
 
                             <br>
 
-                            <div class="form-row">
+                            <div class="form-row" id="boxPaciente">
                                 <div class="form-group col-md-12">
 
                                     <div class="form-row">
@@ -72,31 +129,28 @@
 
                                         <div class="form-group col-md-3">
                                             <h6 for="text" class="col-form-label">N° Identificacion:</h6>
-                                            <input type="text" class="form-control-sm" placeholder="Ingrese el numero de identificacion">
+                                            <input type="text" class="form-control-sm" placeholder="Ingrese el numero de identificacion" id="identificacion">
                                         </div>
 
                                         <div class="form-group col-md-6">
                                             <h6 for="text" class="col-form-label">Nombre:</h6>
-                                            <input type="text" class="form-control-sm" placeholder="">
+                                            <input type="text" class="form-control-sm" placeholder="" id="nombre">
                                         </div>
 
                                         <div class="form-group col-md-1">
                                             <h6 for="text" class="col-form-label">Edad:</h6>
-                                            <input type="number" class="form-control-sm" placeholder="">
+                                            <input type="number" class="form-control-sm" placeholder="" id="edad">
                                         </div>
 
                                         <div class="form-group col-md-1">
                                             <h6 for="text" class="col-form-label">Sexo:</h6>
-                                            <select class="form-control form-control-sm">
-                                                <option value="1">Masculino</option>
-                                                <option value="2">Femenino</option>
-                                                <option value="3">Otro</option>
+                                            <select class="form-control form-control-sm" id="sexo">
                                             </select>
                                         </div>
 
                                         <div class="form-group col-md-1">
                                             <h6 for="text" class="col-form-label">Peso:</h6>
-                                            <input type="number" step="0.01" class="form-control-sm" placeholder="">
+                                            <input type="number" step="0.01" class="form-control-sm" placeholder="" id="peso">
                                         </div>
 
                                     </div>
@@ -107,27 +161,21 @@
                             <div class="form-row">
                                 <div class="form-group col-md-2">
                                     <h6 for="text" class="col-form-label">Provincia:</h6>
-                                    <select class="form-control form-control-sm" placeholder="Seleccione la provincia">
-                                        <option value="1">1</option>
-                                        <option value="2">2</option>
-                                        <option value="3">3</option>
+                                    <select class="form-control form-control-sm" placeholder="Seleccione la provincia" id="provincia">
                                     </select>
                                 </div>
                                 <div class="form-group col-md-2">
                                     <h6 for="text" class="col-form-label">Canton:</h6>
-                                    <select class="form-control form-control-sm" placeholder="Seleccione el canton">
-                                        <option value="1">1</option>
-                                        <option value="2">2</option>
-                                        <option value="3">3</option>
+                                    <select class="form-control form-control-sm" placeholder="Seleccione el canton" id="canton">
                                     </select>
                                 </div>
                                 <div class="form-group col-md-4">
                                     <h6 for="text" class="col-form-label">Otras señas:</h6>
-                                    <input type="text" class="form-control-sm" placeholder="Ingrese otras señas">
+                                    <input type="text" class="form-control-sm" placeholder="Ingrese otras señas" id="otrasSeñas">
                                 </div>
                                 <div class="form-group col-md-4">
                                     <h6 for="text" class="col-form-label">N° Telefono:</h6>
-                                    <input type="number" class="form-control-sm" placeholder="Ingrese un numero">
+                                    <input type="number" class="form-control-sm" placeholder="Ingrese un numero" id="telefono">
                                 </div>
                             </div>
 
@@ -157,16 +205,13 @@
                             <div class="form-row">
                                 <div class="form-group col-md-3" style="display:none" id="datosEmbarazo">
                                     <h6 for="text" class="col-form-label">N° de semanas de embarazo:</h6>
-                                    <input type="number" class="form-control-sm" placeholder="Ingrese el numero de semanas">
+                                    <input type="number" class="form-control-sm" placeholder="Ingrese el numero de semanas" id="numS">
                                 </div>
 
                                 <div class="form-group col-md-9">
                                     <h6 for="text" class="col-form-label">Entidad:</h6>
-                                    <select class="form-control form-control-sm" placeholder="Seleccione el canton">
-                                        <option value="1">1</option>
-                                        <option value="2">2</option>
-                                        <option value="3">3</option>
-                                    </select>
+                                    <select id="entidad" name="entidad" class="form-control" required="required"></select>
+
                                 </div>
                                 <div class="form-group col-md-6">
                                 </div>
@@ -185,53 +230,74 @@
 
                                 <div class="form-group col-md-3">
                                     <h6 for="text" class="col-form-label">Fecha y hora:</h6>
-                                    <input type="datetime-local" class="form-control-sm">
+                                    <input type="datetime-local" class="form-control-sm" id="fechaExpo">
                                 </div>
 
                                 <div class="form-group col-md-3">
-                                    <h6 for="text" class="col-form-label">Generico:</h6>
-                                    <select class="form-control form-control-sm" placeholder="Seleccione el canton">
-                                        <option value="1">1</option>
-                                        <option value="2">2</option>
-                                        <option value="3">3</option>
+                                    <h6 for="text" class="col-form-label">Toxico:</h6>
+                                    <select class="form-control form-control-sm" placeholder="Seleccione el canton" id="gen">
                                     </select>
                                 </div>
-                                <div class="form-group col-md-3">
-                                    <h6 for="text" class="col-form-label">Codigo tox:</h6>
-                                    <select class="form-control form-control-sm" placeholder="Seleccione el canton">
-                                        <option value="1">1</option>
-                                        <option value="2">2</option>
-                                        <option value="3">3</option>
+                                <div class="form-group col-md-2">
+                                    <h6 for="text" class="col-form-label">Codigo Tox:</h6>
+                                    <select class="form-control form-control-sm" placeholder="Seleccione el canton" id="codtox">
                                     </select>
                                 </div>
-                                <div class="form-group col-md-3">
-                                    <h6 for="text" class="col-form-label">Marca:</h6>
-                                    <select class="form-control form-control-sm" placeholder="Seleccione el canton">
-                                        <option value="1">1</option>
-                                        <option value="2">2</option>
-                                        <option value="3">3</option>
-                                    </select>
-                                </div>
+
                                 <div class="form-group col-md-3">
                                     <h6 for="text" class="col-form-label">Cantidad:</h6>
-                                    <input type="number" step="0.01" class="form-control-sm" placeholder="">
+                                    <input type="number" step="0.01" class="form-control-sm" placeholder="" id="cant">
                                 </div>
 
                                 <div class="form-group col-md-2">
                                     <h6 for="text" class="col-form-label">Presentacion:</h6>
-                                    <select class="form-control form-control-sm" placeholder="Seleccione el canton">
+                                    <select class="form-control form-control-sm" placeholder="Seleccione el canton" id="pres">
                                         <option value="1">1</option>
                                         <option value="2">2</option>
                                         <option value="3">3</option>
                                     </select>
                                 </div>
+
+                                <div class="form-group col-md-7">
+                                </div>
+
+                                <div class="form-group col-md-5">
+                                </div>
+
+                                <div class="form-group col-md-2">
+                                    <button type="button" id="prevGuardar" class="btn-sm" onclick="addToxico()">Agregar</button>
+                                </div>
+                                <div class="form-group col-md-5">
+                                </div>
+
+
+
+
+                                <div class="form-group col-md-12">
+                                    <div id="divTabla">
+                                        <table class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th>Tóxico</th>
+                                                    <th>Codigo tox</th>
+                                                    <th>Clasificación</th>
+                                                    <th>Cantidad</th>
+                                                    <th>Presentacion</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="tbody">
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
                             </div>
                         </div>
                     </div>
                 </div>
 
 
-                <div class="tab">
+                <div class="tab" id="stepC2">
                     <div class="card">
                         <div class="card-header" style="color: #4682B4">SIGNOS Y SÍNTOMAS</div>
 
@@ -252,77 +318,77 @@
                                     <ul class="list-group list-group-flush">
                                         <li class="list-group-control">
                                             <label class="custom-control material-checkbox">
-                                                <input type="checkbox" class="material-control-input">
+                                                <input type="checkbox" class="material-control-input" id="metabolica">
                                                 <span class="material-control-indicator"></span>
                                                 <span class="material-control-description">Alt. metabólicas</span>
                                             </label>
                                             <label class="custom-control material-checkbox">
-                                                <input type="checkbox" class="material-control-input">
+                                                <input type="checkbox" class="material-control-input" id="alucinaciones">
                                                 <span class="material-control-indicator"></span>
                                                 <span class="material-control-description">Alucinaciones</span>
                                             </label>
                                             <label class="custom-control material-checkbox">
-                                                <input type="checkbox" class="material-control-input">
+                                                <input type="checkbox" class="material-control-input" id="anuria">
                                                 <span class="material-control-indicator"></span>
                                                 <span class="material-control-description">Anuria</span>
                                             </label>
                                             <label class="custom-control material-checkbox">
-                                                <input type="checkbox" class="material-control-input">
+                                                <input type="checkbox" class="material-control-input" id="arritmia">
                                                 <span class="material-control-indicator"></span>
                                                 <span class="material-control-description">Arritmia</span>
                                             </label>
                                             <label class="custom-control material-checkbox">
-                                                <input type="checkbox" class="material-control-input">
+                                                <input type="checkbox" class="material-control-input" id="asintomatico">
                                                 <span class="material-control-indicator"></span>
                                                 <span class="material-control-description">Asintomático</span>
                                             </label>
                                             <label class="custom-control material-checkbox">
-                                                <input type="checkbox" class="material-control-input">
+                                                <input type="checkbox" class="material-control-input" id="ataxia">
                                                 <span class="material-control-indicator"></span>
                                                 <span class="material-control-description">Ataxia</span>
                                             </label>
                                             <label class="custom-control material-checkbox">
-                                                <input type="checkbox" class="material-control-input">
+                                                <input type="checkbox" class="material-control-input" id="bradicardia">
                                                 <span class="material-control-indicator"></span>
                                                 <span class="material-control-description">Bradicardia</span>
                                             </label>
                                             <label class="custom-control material-checkbox">
-                                                <input type="checkbox" class="material-control-input">
+                                                <input type="checkbox" class="material-control-input" id="cefalea">
                                                 <span class="material-control-indicator"></span>
                                                 <span class="material-control-description">Cefalea</span>
                                             </label>
                                             <label class="custom-control material-checkbox">
-                                                <input type="checkbox" class="material-control-input">
+                                                <input type="checkbox" class="material-control-input" id="cianosis">
                                                 <span class="material-control-indicator"></span>
                                                 <span class="material-control-description">Cianosis</span>
                                             </label>
                                             <label class="custom-control material-checkbox">
-                                                <input type="checkbox" class="material-control-input">
+                                                <input type="checkbox" class="material-control-input" id="coma">
                                                 <span class="material-control-indicator"></span>
                                                 <span class="material-control-description">Coma</span>
                                             </label>
                                             <label class="custom-control material-checkbox">
-                                                <input type="checkbox" class="material-control-input">
+                                                <input type="checkbox" class="material-control-input" id="confusion">
                                                 <span class="material-control-indicator"></span>
                                                 <span class="material-control-description">Confusión mental</span>
                                             </label>
                                             <label class="custom-control material-checkbox">
-                                                <input type="checkbox" class="material-control-input">
+                                                <input type="checkbox" class="material-control-input" id="convulsiones">
                                                 <span class="material-control-indicator"></span>
                                                 <span class="material-control-description">Convulsiones</span>
                                             </label>
                                             <label class="custom-control material-checkbox">
-                                                <input type="checkbox" class="material-control-input">
+                                                <input type="checkbox" class="material-control-input" id="debilidad">
                                                 <span class="material-control-indicator"></span>
                                                 <span class="material-control-description">Debilidad muscular</span>
                                             </label>
                                             <label class="custom-control material-checkbox">
-                                                <input type="checkbox" class="material-control-input">
+                                                <input type="checkbox" class="material-control-input" id="diaforesis">
                                                 <span class="material-control-indicator"></span>
                                                 <span class="material-control-description">Diaforesis</span>
                                             </label>
                                             <label class="custom-control material-checkbox">
-                                                <input type="checkbox" class="material-control-input">
+                                                <input type="checkbox" class="material-control-input" id="diarrea">
                                                 <span class="material-control-indicator"></span>
                                                 <span class="material-control-description">Diarrea</span>
                                             </label>
@@ -334,77 +400,77 @@
                                     <ul class="list-group list-group-flush">
                                         <li class="list-group-control">
                                             <label class="custom-control material-checkbox">
-                                                <input type="checkbox" class="material-control-input">
+                                                <input type="checkbox" class="material-control-input" id="disnea">
                                                 <span class="material-control-indicator"></span>
                                                 <span class="material-control-description">Disnea</span>
                                             </label>
                                             <label class="custom-control material-checkbox">
-                                                <input type="checkbox" class="material-control-input">
+                                                <input type="checkbox" class="material-control-input" id="dolor">
                                                 <span class="material-control-indicator"></span>
                                                 <span class="material-control-description">Dolor</span>
                                             </label>
                                             <label class="custom-control material-checkbox">
-                                                <input type="checkbox" class="material-control-input">
+                                                <input type="checkbox" class="material-control-input" id="dolorAbdominal">
                                                 <span class="material-control-indicator"></span>
                                                 <span class="material-control-description">Dolor abdominal</span>
                                             </label>
                                             <label class="custom-control material-checkbox">
-                                                <input type="checkbox" class="material-control-input">
+                                                <input type="checkbox" class="material-control-input" id="dolorPecho">
                                                 <span class="material-control-indicator"></span>
                                                 <span class="material-control-description">Dolor de pecho</span>
                                             </label>
                                             <label class="custom-control material-checkbox">
-                                                <input type="checkbox" class="material-control-input">
+                                                <input type="checkbox" class="material-control-input" id="edema">
                                                 <span class="material-control-indicator"></span>
                                                 <span class="material-control-description">Edema</span>
                                             </label>
                                             <label class="custom-control material-checkbox">
-                                                <input type="checkbox" class="material-control-input">
+                                                <input type="checkbox" class="material-control-input" id="edemaPulmonar">
                                                 <span class="material-control-indicator"></span>
                                                 <span class="material-control-description">Edema pulmonar</span>
                                             </label>
                                             <label class="custom-control material-checkbox">
-                                                <input type="checkbox" class="material-control-input">
+                                                <input type="checkbox" class="material-control-input" id="enrojecimiento">
                                                 <span class="material-control-indicator"></span>
                                                 <span class="material-control-description">Enrojecimiento</span>
                                             </label>
                                             <label class="custom-control material-checkbox">
-                                                <input type="checkbox" class="material-control-input">
+                                                <input type="checkbox" class="material-control-input" id="eritema">
                                                 <span class="material-control-indicator"></span>
                                                 <span class="material-control-description">Eritema</span>
                                             </label>
                                             <label class="custom-control material-checkbox">
-                                                <input type="checkbox" class="material-control-input">
+                                                <input type="checkbox" class="material-control-input" id="extrapiramidalismo">
                                                 <span class="material-control-indicator"></span>
                                                 <span class="material-control-description">Extrapiramidalismo</span>
                                             </label>
                                             <label class="custom-control material-checkbox">
-                                                <input type="checkbox" class="material-control-input">
+                                                <input type="checkbox" class="material-control-input" id="fiebre">
                                                 <span class="material-control-indicator"></span>
                                                 <span class="material-control-description">Fiebre</span>
                                             </label>
                                             <label class="custom-control material-checkbox">
-                                                <input type="checkbox" class="material-control-input">
+                                                <input type="checkbox" class="material-control-input" id="hipertension">
                                                 <span class="material-control-indicator"></span>
                                                 <span class="material-control-description">Hipertensión</span>
                                             </label>
                                             <label class="custom-control material-checkbox">
-                                                <input type="checkbox" class="material-control-input">
+                                                <input type="checkbox" class="material-control-input" id="hipotermia">
                                                 <span class="material-control-indicator"></span>
                                                 <span class="material-control-description">Hipotermia</span>
                                             </label>
                                             <label class="custom-control material-checkbox">
-                                                <input type="checkbox" class="material-control-input">
+                                                <input type="checkbox" class="material-control-input" id="hipotension">
                                                 <span class="material-control-indicator"></span>
                                                 <span class="material-control-description">Hipotensión</span>
                                             </label>
                                             <label class="custom-control material-checkbox">
-                                                <input type="checkbox" class="material-control-input">
+                                                <input type="checkbox" class="material-control-input" id="lcteria">
                                                 <span class="material-control-indicator"></span>
                                                 <span class="material-control-description">lcteria</span>
                                             </label>
                                             <label class="custom-control material-checkbox">
-                                                <input type="checkbox" class="material-control-input">
+                                                <input type="checkbox" class="material-control-input" id="irritabilidad">
                                                 <span class="material-control-indicator"></span>
                                                 <span class="material-control-description">Irritabilidad</span>
                                             </label>
@@ -417,77 +483,77 @@
                                     <ul class="list-group list-group-flush">
                                         <li class="list-group-control">
                                             <label class="custom-control material-checkbox">
-                                                <input type="checkbox" class="material-control-input">
+                                                <input type="checkbox" class="material-control-input" id="irritacionOjos">
                                                 <span class="material-control-indicator"></span>
                                                 <span class="material-control-description">Irritación ojos</span>
                                             </label>
                                             <label class="custom-control material-checkbox">
-                                                <input type="checkbox" class="material-control-input">
+                                                <input type="checkbox" class="material-control-input" id="irritacionOral">
                                                 <span class="material-control-indicator"></span>
                                                 <span class="material-control-description">Irritación oral</span>
                                             </label>
                                             <label class="custom-control material-checkbox">
-                                                <input type="checkbox" class="material-control-input">
+                                                <input type="checkbox" class="material-control-input" id="irritacionPiel">
                                                 <span class="material-control-indicator"></span>
                                                 <span class="material-control-description">Irritación piel</span>
                                             </label>
                                             <label class="custom-control material-checkbox">
-                                                <input type="checkbox" class="material-control-input">
+                                                <input type="checkbox" class="material-control-input" id="letargia">
                                                 <span class="material-control-indicator"></span>
                                                 <span class="material-control-description">Letargia</span>
                                             </label>
                                             <label class="custom-control material-checkbox">
-                                                <input type="checkbox" class="material-control-input">
+                                                <input type="checkbox" class="material-control-input" id="mareo">
                                                 <span class="material-control-indicator"></span>
                                                 <span class="material-control-description">Mareos</span>
                                             </label>
                                             <label class="custom-control material-checkbox">
-                                                <input type="checkbox" class="material-control-input">
+                                                <input type="checkbox" class="material-control-input" id="midriasis">
                                                 <span class="material-control-indicator"></span>
                                                 <span class="material-control-description">Midriasis</span>
                                             </label>
                                             <label class="custom-control material-checkbox">
-                                                <input type="checkbox" class="material-control-input">
+                                                <input type="checkbox" class="material-control-input" id="miosis">
                                                 <span class="material-control-indicator"></span>
                                                 <span class="material-control-description">Miosis</span>
                                             </label>
                                             <label class="custom-control material-checkbox">
-                                                <input type="checkbox" class="material-control-input">
+                                                <input type="checkbox" class="material-control-input" id="nauseas">
                                                 <span class="material-control-indicator"></span>
                                                 <span class="material-control-description">Nauseas</span>
                                             </label>
                                             <label class="custom-control material-checkbox">
-                                                <input type="checkbox" class="material-control-input">
+                                                <input type="checkbox" class="material-control-input" id="neumonia">
                                                 <span class="material-control-indicator"></span>
                                                 <span class="material-control-description">Neumonia</span>
                                             </label>
                                             <label class="custom-control material-checkbox">
-                                                <input type="checkbox" class="material-control-input">
+                                                <input type="checkbox" class="material-control-input" id="oliguria">
                                                 <span class="material-control-indicator"></span>
                                                 <span class="material-control-description">Oliguria</span>
                                             </label>
                                             <label class="custom-control material-checkbox">
-                                                <input type="checkbox" class="material-control-input">
+                                                <input type="checkbox" class="material-control-input" id="palidez">
                                                 <span class="material-control-indicator"></span>
                                                 <span class="material-control-description">Palidez</span>
                                             </label>
                                             <label class="custom-control material-checkbox">
-                                                <input type="checkbox" class="material-control-input">
+                                                <input type="checkbox" class="material-control-input" id="parestesias">
                                                 <span class="material-control-indicator"></span>
                                                 <span class="material-control-description">Parestesias</span>
                                             </label>
                                             <label class="custom-control material-checkbox">
-                                                <input type="checkbox" class="material-control-input">
+                                                <input type="checkbox" class="material-control-input" id="paroCR" disabled>
                                                 <span class="material-control-indicator"></span>
                                                 <span class="material-control-description">Paro CR</span>
                                             </label>
                                             <label class="custom-control material-checkbox">
-                                                <input type="checkbox" class="material-control-input">
+                                                <input type="checkbox" class="material-control-input" id="prurito">
                                                 <span class="material-control-indicator"></span>
                                                 <span class="material-control-description">Prurito</span>
                                             </label>
                                             <label class="custom-control material-checkbox">
-                                                <input type="checkbox" class="material-control-input">
+                                                <input type="checkbox" class="material-control-input" id="quemaduraPiel">
                                                 <span class="material-control-indicator"></span>
                                                 <span class="material-control-description">Quemadura piel</span>
                                             </label>
@@ -500,62 +566,62 @@
                                     <ul class="list-group list-group-flush">
                                         <li class="list-group-control">
                                             <label class="custom-control material-checkbox">
-                                                <input type="checkbox" class="material-control-input">
+                                                <input type="checkbox" class="material-control-input" id="quemaduraOral">
                                                 <span class="material-control-indicator"></span>
                                                 <span class="material-control-description">Quemaduras orales</span>
                                             </label>
                                             <label class="custom-control material-checkbox">
-                                                <input type="checkbox" class="material-control-input">
+                                                <input type="checkbox" class="material-control-input" id="rash">
                                                 <span class="material-control-indicator"></span>
                                                 <span class="material-control-description">Rash</span>
                                             </label>
                                             <label class="custom-control material-checkbox">
-                                                <input type="checkbox" class="material-control-input">
+                                                <input type="checkbox" class="material-control-input" id="rigidezMuscular">
                                                 <span class="material-control-indicator"></span>
                                                 <span class="material-control-description">Rigidez muscular</span>
                                             </label>
                                             <label class="custom-control material-checkbox">
-                                                <input type="checkbox" class="material-control-input">
+                                                <input type="checkbox" class="material-control-input" id="salivacion">
                                                 <span class="material-control-indicator"></span>
                                                 <span class="material-control-description">Salivación</span>
                                             </label>
                                             <label class="custom-control material-checkbox">
-                                                <input type="checkbox" class="material-control-input">
+                                                <input type="checkbox" class="material-control-input" id="sintomasDes">
                                                 <span class="material-control-indicator"></span>
                                                 <span class="material-control-description">Sintomas desconocidos</span>
                                             </label>
                                             <label class="custom-control material-checkbox">
-                                                <input type="checkbox" class="material-control-input">
+                                                <input type="checkbox" class="material-control-input" id="somnolencia">
                                                 <span class="material-control-indicator"></span>
                                                 <span class="material-control-description">Somnolencia</span>
                                             </label>
                                             <label class="custom-control material-checkbox">
-                                                <input type="checkbox" class="material-control-input">
+                                                <input type="checkbox" class="material-control-input" id="taquicardia">
                                                 <span class="material-control-indicator"></span>
                                                 <span class="material-control-description">Taquicardia</span>
                                             </label>
                                             <label class="custom-control material-checkbox">
-                                                <input type="checkbox" class="material-control-input">
+                                                <input type="checkbox" class="material-control-input" id="tos">
                                                 <span class="material-control-indicator"></span>
                                                 <span class="material-control-description">Tos</span>
                                             </label>
                                             <label class="custom-control material-checkbox">
-                                                <input type="checkbox" class="material-control-input">
+                                                <input type="checkbox" class="material-control-input" id="tremors">
                                                 <span class="material-control-indicator"></span>
                                                 <span class="material-control-description">Tremors</span>
                                             </label>
                                             <label class="custom-control material-checkbox">
-                                                <input type="checkbox" class="material-control-input">
+                                                <input type="checkbox" class="material-control-input" id="vertigo">
                                                 <span class="material-control-indicator"></span>
                                                 <span class="material-control-description">Vértigo</span>
                                             </label>
                                             <label class="custom-control material-checkbox">
-                                                <input type="checkbox" class="material-control-input">
+                                                <input type="checkbox" class="material-control-input" id="visionBorrosa">
                                                 <span class="material-control-indicator"></span>
                                                 <span class="material-control-description">Visión borrosa</span>
                                             </label>
                                             <label class="custom-control material-checkbox">
-                                                <input type="checkbox" class="material-control-input">
+                                                <input type="checkbox" class="material-control-input" id="vomito">
                                                 <span class="material-control-indicator"></span>
                                                 <span class="material-control-description">Vomito</span>
                                             </label>
@@ -576,17 +642,17 @@
 
                                 <div class="form-group col-md-4">
                                     <h6 for="text" class="col-form-label">Presion arterial:</h6>
-                                    <input type="text" class="form-control-sm" placeholder="">
+                                    <input type="text" class="form-control-sm" placeholder="" id="presionArterial">
                                 </div>
 
                                 <div class="form-group col-md-4">
                                     <h6 for="text" class="col-form-label">Frecuencia cardiaca:</h6>
-                                    <input type="text" class="form-control-sm" placeholder="">
+                                    <input type="text" class="form-control-sm" placeholder="" id="frecuenciaCardiaca">
                                 </div>
 
                                 <div class="form-group col-md-4">
                                     <h6 for="text" class="col-form-label">Temperatura:</h6>
-                                    <input type="text" class="form-control-sm" placeholder="">
+                                    <input type="text" class="form-control-sm" placeholder="" id="temperatura">
                                 </div>
                             </div>
 
@@ -606,7 +672,7 @@
                     </div>
                 </div>
 
-                <div class="tab">
+                <div class="tab" id="stepC3">
                     <div class="card">
                         <div class="card-header" style="color: #4682B4">CAUSAS Y RUTAS</div>
                         <div class="card-body">
@@ -750,7 +816,7 @@
 
                                 <div class="form-group col-md-4" id="travasebox" style="display:none">
                                     <h6 for="text" class="col-form-label">TRASVASE:</h6>
-                                    <select class="form-control form-control-sm" placeholder="Seleccione el canton">
+                                    <select class="form-control form-control-sm" placeholder="Seleccione el canton" id="trasvase">
                                         <option value="1">SI</option>
                                         <option value="2">NO</option>
                                     </select>
@@ -758,7 +824,7 @@
 
                                 <div class="form-group col-md-4" id="terapeuticosbox" style="display:none">
                                     <h6 for="text" class="col-form-label">Errores terapéuticos:</h6>
-                                    <select class="form-control form-control-sm" placeholder="Seleccione el canton">
+                                    <select class="form-control form-control-sm" placeholder="Seleccione el canton" id="errorTerapeutico">
                                         <option value="1">1</option>
                                         <option value="2">2</option>
                                         <option value="3">3</option>
@@ -767,7 +833,7 @@
 
                                 <div class="form-group col-md-4" id="proteccionbox" style="display:none">
                                     <h6 for="text" class="col-form-label">PROTECCION:</h6>
-                                    <select class="form-control form-control-sm" placeholder="Seleccione el canton">
+                                    <select class="form-control form-control-sm" placeholder="Seleccione el canton" id="proteccion">
                                         <option value="1">SI</option>
                                         <option value="2">NO</option>
                                     </select>
@@ -790,27 +856,27 @@
                                     <ul class="list-group list-group-flush">
                                         <li class="list-group-control">
                                             <label class="custom-control material-checkbox">
-                                                <input type="checkbox" class="material-control-input">
+                                                <input type="checkbox" class="material-control-input" id="descon">
                                                 <span class="material-control-indicator"></span>
                                                 <span class="material-control-description">Descon</span>
                                             </label>
                                             <label class="custom-control material-checkbox">
-                                                <input type="checkbox" class="material-control-input">
+                                                <input type="checkbox" class="material-control-input" id="ingestion">
                                                 <span class="material-control-indicator"></span>
                                                 <span class="material-control-description">Ingestion</span>
                                             </label>
                                             <label class="custom-control material-checkbox">
-                                                <input type="checkbox" class="material-control-input">
+                                                <input type="checkbox" class="material-control-input" id="inhalacion">
                                                 <span class="material-control-indicator"></span>
                                                 <span class="material-control-description">Inhalacion</span>
                                             </label>
                                             <label class="custom-control material-checkbox">
-                                                <input type="checkbox" class="material-control-input">
+                                                <input type="checkbox" class="material-control-input" id="inhalacionPiel">
                                                 <span class="material-control-indicator"></span>
                                                 <span class="material-control-description">Inh/piel</span>
                                             </label>
                                             <label class="custom-control material-checkbox">
-                                                <input type="checkbox" class="material-control-input">
+                                                <input type="checkbox" class="material-control-input" id="mordedura">
                                                 <span class="material-control-indicator"></span>
                                                 <span class="material-control-description">Mordedura</span>
                                             </label>
@@ -823,27 +889,27 @@
                                     <ul class="list-group list-group-flush">
                                         <li class="list-group-control">
                                             <label class="custom-control material-checkbox">
-                                                <input type="checkbox" class="material-control-input">
+                                                <input type="checkbox" class="material-control-input" id="ojos">
                                                 <span class="material-control-indicator"></span>
                                                 <span class="material-control-description">Ojos</span>
                                             </label>
                                             <label class="custom-control material-checkbox">
-                                                <input type="checkbox" class="material-control-input">
+                                                <input type="checkbox" class="material-control-input" id="otros1">
                                                 <span class="material-control-indicator"></span>
                                                 <span class="material-control-description">Otra</span>
                                             </label>
                                             <label class="custom-control material-checkbox">
-                                                <input type="checkbox" class="material-control-input">
+                                                <input type="checkbox" class="material-control-input" id="parental">
                                                 <span class="material-control-indicator"></span>
                                                 <span class="material-control-description">Parental</span>
                                             </label>
                                             <label class="custom-control material-checkbox">
-                                                <input type="checkbox" class="material-control-input">
+                                                <input type="checkbox" class="material-control-input" id="picadura">
                                                 <span class="material-control-indicator"></span>
                                                 <span class="material-control-description">Picadura</span>
                                             </label>
                                             <label class="custom-control material-checkbox">
-                                                <input type="checkbox" class="material-control-input">
+                                                <input type="checkbox" class="material-control-input" id="piel">
                                                 <span class="material-control-indicator"></span>
                                                 <span class="material-control-description">Piel</span>
                                             </label>
@@ -857,7 +923,7 @@
                     </div>
                 </div>
 
-                <div class="tab">
+                <div class="tab" id="stepC4">
                     <div class="card">
                         <div class="card-header" style="color: #4682B4">TRATAMIENTO/COMENTARIOS</div>
                         <div class="card-body">
@@ -869,47 +935,47 @@
                                     <ul class="list-group list-group-flush">
                                         <li class="list-group-control">
                                             <label class="custom-control material-checkbox">
-                                                <input type="checkbox" class="material-control-input">
+                                                <input type="checkbox" class="material-control-input" id="agenteTerapeutico">
                                                 <span class="material-control-indicator"></span>
                                                 <span class="material-control-description">Agentes terapéuticos</span>
                                             </label>
                                             <label class="custom-control material-checkbox">
-                                                <input type="checkbox" class="material-control-input">
+                                                <input type="checkbox" class="material-control-input" id="alalnización">
                                                 <span class="material-control-indicator"></span>
                                                 <span class="material-control-description">Alalnización</span>
                                             </label>
                                             <label class="custom-control material-checkbox">
-                                                <input type="checkbox" class="material-control-input">
+                                                <input type="checkbox" class="material-control-input" id="antidoto">
                                                 <span class="material-control-indicator"></span>
                                                 <span class="material-control-description">Antídolo</span>
                                             </label>
                                             <label class="custom-control material-checkbox">
-                                                <input type="checkbox" class="material-control-input">
+                                                <input type="checkbox" class="material-control-input" id="carbon">
                                                 <span class="material-control-indicator"></span>
                                                 <span class="material-control-description">Carbón</span>
                                             </label>
                                             <label class="custom-control material-checkbox">
-                                                <input type="checkbox" class="material-control-input">
+                                                <input type="checkbox" class="material-control-input" id="carbon4">
                                                 <span class="material-control-indicator"></span>
                                                 <span class="material-control-description">Carbón cada 4 horas</span>
                                             </label>
                                             <label class="custom-control material-checkbox">
-                                                <input type="checkbox" class="material-control-input">
+                                                <input type="checkbox" class="material-control-input" id="catarico">
                                                 <span class="material-control-indicator"></span>
                                                 <span class="material-control-description">Catárico</span>
                                             </label>
                                             <label class="custom-control material-checkbox">
-                                                <input type="checkbox" class="material-control-input">
+                                                <input type="checkbox" class="material-control-input" id="demulcente">
                                                 <span class="material-control-indicator"></span>
                                                 <span class="material-control-description">Demulcente</span>
                                             </label>
                                             <label class="custom-control material-checkbox">
-                                                <input type="checkbox" class="material-control-input">
+                                                <input type="checkbox" class="material-control-input" id="descartarTex">
                                                 <span class="material-control-indicator"></span>
                                                 <span class="material-control-description">Descartar Téxico</span>
                                             </label>
                                             <label class="custom-control material-checkbox">
-                                                <input type="checkbox" class="material-control-input">
+                                                <input type="checkbox" class="material-control-input" id="desconocido">
                                                 <span class="material-control-indicator"></span>
                                                 <span class="material-control-description">Desconocido</span>
                                             </label>
@@ -922,47 +988,47 @@
                                     <ul class="list-group list-group-flush">
                                         <li class="list-group-control">
                                             <label class="custom-control material-checkbox">
-                                                <input type="checkbox" class="material-control-input">
+                                                <input type="checkbox" class="material-control-input" id="dilucion">
                                                 <span class="material-control-indicator"></span>
                                                 <span class="material-control-description">Dilución</span>
                                             </label>
                                             <label class="custom-control material-checkbox">
-                                                <input type="checkbox" class="material-control-input">
+                                                <input type="checkbox" class="material-control-input" id="exg">
                                                 <span class="material-control-indicator"></span>
                                                 <span class="material-control-description">EXG</span>
                                             </label>
                                             <label class="custom-control material-checkbox">
-                                                <input type="checkbox" class="material-control-input">
+                                                <input type="checkbox" class="material-control-input" id="electrolros">
                                                 <span class="material-control-indicator"></span>
                                                 <span class="material-control-description">Electrolros</span>
                                             </label>
                                             <label class="custom-control material-checkbox">
-                                                <input type="checkbox" class="material-control-input">
+                                                <input type="checkbox" class="material-control-input" id="endoscopia">
                                                 <span class="material-control-indicator"></span>
                                                 <span class="material-control-description">Endoscopia</span>
                                             </label>
                                             <label class="custom-control material-checkbox">
-                                                <input type="checkbox" class="material-control-input">
+                                                <input type="checkbox" class="material-control-input" id="glcema">
                                                 <span class="material-control-indicator"></span>
                                                 <span class="material-control-description">Glcema</span>
                                             </label>
                                             <label class="custom-control material-checkbox">
-                                                <input type="checkbox" class="material-control-input">
+                                                <input type="checkbox" class="material-control-input" id="hemograma">
                                                 <span class="material-control-indicator"></span>
                                                 <span class="material-control-description">Hemograma</span>
                                             </label>
                                             <label class="custom-control material-checkbox">
-                                                <input type="checkbox" class="material-control-input">
+                                                <input type="checkbox" class="material-control-input" id="lavadoBoca">
                                                 <span class="material-control-indicator"></span>
                                                 <span class="material-control-description">Lavado boca</span>
                                             </label>
                                             <label class="custom-control material-checkbox">
-                                                <input type="checkbox" class="material-control-input">
+                                                <input type="checkbox" class="material-control-input" id="lavadoGastrico">
                                                 <span class="material-control-indicator"></span>
                                                 <span class="material-control-description">Lavado géstico</span>
                                             </label>
                                             <label class="custom-control material-checkbox">
-                                                <input type="checkbox" class="material-control-input">
+                                                <input type="checkbox" class="material-control-input" id="lavadoOjos">
                                                 <span class="material-control-indicator"></span>
                                                 <span class="material-control-description">Lavado ojos</span>
                                             </label>
@@ -975,47 +1041,47 @@
                                     <ul class="list-group list-group-flush">
                                         <li class="list-group-control">
                                             <label class="custom-control material-checkbox">
-                                                <input type="checkbox" class="material-control-input">
+                                                <input type="checkbox" class="material-control-input" id="lavadoPiel">
                                                 <span class="material-control-indicator"></span>
                                                 <span class="material-control-description">Lavado piel</span>
                                             </label>
                                             <label class="custom-control material-checkbox">
-                                                <input type="checkbox" class="material-control-input">
+                                                <input type="checkbox" class="material-control-input" id="leche">
                                                 <span class="material-control-indicator"></span>
                                                 <span class="material-control-description">Leche</span>
                                             </label>
                                             <label class="custom-control material-checkbox">
-                                                <input type="checkbox" class="material-control-input">
+                                                <input type="checkbox" class="material-control-input" id="leucograma">
                                                 <span class="material-control-indicator"></span>
                                                 <span class="material-control-description">Leucograma</span>
                                             </label>
                                             <label class="custom-control material-checkbox">
-                                                <input type="checkbox" class="material-control-input">
+                                                <input type="checkbox" class="material-control-input" id="ninguno">
                                                 <span class="material-control-indicator"></span>
                                                 <span class="material-control-description">Nínguno</span>
                                             </label>
                                             <label class="custom-control material-checkbox">
-                                                <input type="checkbox" class="material-control-input">
+                                                <input type="checkbox" class="material-control-input" id="nivelesPlasma">
                                                 <span class="material-control-indicator"></span>
                                                 <span class="material-control-description">Niveles plasma-orina</span>
                                             </label>
                                             <label class="custom-control material-checkbox">
-                                                <input type="checkbox" class="material-control-input">
+                                                <input type="checkbox" class="material-control-input" id="noInducir">
                                                 <span class="material-control-indicator"></span>
                                                 <span class="material-control-description">No inducir emesis</span>
                                             </label>
                                             <label class="custom-control material-checkbox">
-                                                <input type="checkbox" class="material-control-input">
+                                                <input type="checkbox" class="material-control-input" id="observacion">
                                                 <span class="material-control-indicator"></span>
                                                 <span class="material-control-description">Observación</span>
                                             </label>
                                             <label class="custom-control material-checkbox">
-                                                <input type="checkbox" class="material-control-input">
+                                                <input type="checkbox" class="material-control-input" id="otros2">
                                                 <span class="material-control-indicator"></span>
                                                 <span class="material-control-description">Otos</span>
                                             </label>
                                             <label class="custom-control material-checkbox">
-                                                <input type="checkbox" class="material-control-input">
+                                                <input type="checkbox" class="material-control-input" id="oxigenoterapia">
                                                 <span class="material-control-indicator"></span>
                                                 <span class="material-control-description">Oxigenoterapia</span>
                                             </label>
@@ -1028,42 +1094,42 @@
                                     <ul class="list-group list-group-flush">
                                         <li class="list-group-control">
                                             <label class="custom-control material-checkbox">
-                                                <input type="checkbox" class="material-control-input">
+                                                <input type="checkbox" class="material-control-input" id="pfHepatica">
                                                 <span class="material-control-indicator"></span>
                                                 <span class="material-control-description">PF Hepática</span>
                                             </label>
                                             <label class="custom-control material-checkbox">
-                                                <input type="checkbox" class="material-control-input">
+                                                <input type="checkbox" class="material-control-input" id="pfRenal">
                                                 <span class="material-control-indicator"></span>
                                                 <span class="material-control-description">PF Renal</span>
                                             </label>
                                             <label class="custom-control material-checkbox">
-                                                <input type="checkbox" class="material-control-input">
+                                                <input type="checkbox" class="material-control-input" id="rayosX">
                                                 <span class="material-control-indicator"></span>
                                                 <span class="material-control-description">Rayos X</span>
                                             </label>
                                             <label class="custom-control material-checkbox">
-                                                <input type="checkbox" class="material-control-input">
+                                                <input type="checkbox" class="material-control-input" id="terapiaSoporte">
                                                 <span class="material-control-indicator"></span>
                                                 <span class="material-control-description">Terapia de soporte</span>
                                             </label>
                                             <label class="custom-control material-checkbox">
-                                                <input type="checkbox" class="material-control-input">
+                                                <input type="checkbox" class="material-control-input" id="tierraFuller">
                                                 <span class="material-control-indicator"></span>
                                                 <span class="material-control-description">Tierra fuller</span>
                                             </label>
                                             <label class="custom-control material-checkbox">
-                                                <input type="checkbox" class="material-control-input">
+                                                <input type="checkbox" class="material-control-input" id="tpYtat">
                                                 <span class="material-control-indicator"></span>
                                                 <span class="material-control-description">TP y TAT</span>
                                             </label>
                                             <label class="custom-control material-checkbox">
-                                                <input type="checkbox" class="material-control-input">
+                                                <input type="checkbox" class="material-control-input" id="trasladoStat">
                                                 <span class="material-control-indicator"></span>
                                                 <span class="material-control-description">Traslado Stat</span>
                                             </label>
                                             <label class="custom-control material-checkbox">
-                                                <input type="checkbox" class="material-control-input">
+                                                <input type="checkbox" class="material-control-input" id="veloracionMedica">
                                                 <span class="material-control-indicator"></span>
                                                 <span class="material-control-description">Veloración médica</span>
                                             </label>
@@ -1073,23 +1139,23 @@
                                 </div>
                             </div>
 
-                             <div class="form-row">
+                            <div class="form-row">
 
-                                    <div class="form-group col-md-3">
-                                        <h6 for="text" class="col-form-label">Traslado:</h6>
-                                        <select class="form-control form-control-sm" placeholder="Seleccione el canton">
-                                            <option value="1">Ambulancia</option>
-                                            <option value="2">Medios propios</option>
-                                            <option value="3">Manejo en el hogar</option>
-                                        </select>
-                                    </div>
-
-                                    <div class="form-group col-md-9">
-                                        <h6 for="text" class="col-form-label">Notas:</h6>
-                                        <input type="text" class="form-control-sm" placeholder="">
-                                    </div>
-
+                                <div class="form-group col-md-3">
+                                    <h6 for="text" class="col-form-label">Traslado:</h6>
+                                    <select class="form-control form-control-sm" placeholder="Seleccione el canton" id="traslado">
+                                        <option value="1">Ambulancia</option>
+                                        <option value="2">Medios propios</option>
+                                        <option value="3">Manejo en el hogar</option>
+                                    </select>
                                 </div>
+
+                                <div class="form-group col-md-9">
+                                    <h6 for="text" class="col-form-label">Notas:</h6>
+                                    <input type="text" class="form-control-sm" placeholder="" id="notas">
+                                </div>
+
+                            </div>
 
 
                         </div>
@@ -1097,21 +1163,960 @@
                 </div>
 
 
-                <div class="thanks-message text-center" id="text-message">
 
-                    <h3>Aqui va un resumen de la info</h3>
-                     <button type="button" id="prevBtn" onclick="tabGenral()"><i class="fa fa-angle-double-left"></i></button>
-                    <button type="button" id="prevGuardar" onclick="nextPrev(-1)">Guardar</button>
+                <div class="tab" id="stepC5">
+                    <div class="card">
+                        <div class="card-header" style="color: #4682B4">CONSULTAS ASESORAMIENTOS</div>
+                        <div class="card-body">
+                            <div class="form-row">
+
+                                <div class="form-group col-md-12">
+                                    <h6 for="text" class="col-form-label">Preguntas:</h6>
+                                    <select id="preguntaConsulta" name="preguntaConsulta" class="form-control" required="required"></select>
+                                </div>
+
+                                <div class="form-group col-md-12">
+                                    <h6 for="text" class="col-form-label">Observaciones:</h6>
+                                    <input type="text" class="form-control-sm" placeholder="" id="obsConsulta">
+                                </div>
+
+                                <div class="form-group col-md-4">
+                                    <h6 for="text" class="col-form-label">Tipo de consulta:</h6>
+                                    <select class="form-control form-control-sm" placeholder="Seleccione" id="tipoAsesoria">
+                                        <option value="0">Seleccione</option>
+                                        <option value="1">Farmacológica</option>
+                                        <option value="2">Toxicológicas</option>
+                                        <option value="3">Veterinarias</option>
+                                    </select>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
 
-                <div style="overflow:auto;" id="nextprevious">
+
+
+                <div class="tab" id="stepC6">
+                    <div class="card">
+                        <div class="card-header" style="color: #4682B4">RESUMEN</div>
+                        <div class="card-body">
+
+
+
+                            <div class="form-row">
+                                <div class="form-group col-md-3">
+                                    <h6 for="text" class="col-form-label" style="color: #4682B4">DATOS GENERALES</h6>
+                                </div>
+                                <div class="form-group col-md-9">
+                                    <hr>
+                                </div>
+
+                                <div class="form-group col-md-2">
+                                    <a>Fecha y hora:</a>
+                                </div>
+                                <div class="form-group col-md-10">
+                                    <a id="fechaR"></a>
+                                </div>
+                                <div class="form-group col-md-2">
+                                    <a>Exp:</a>
+                                </div>
+                                <div class="form-group col-md-10">
+                                    <a id="expR"></a>
+                                </div>
+
+                                <div class="form-group col-md-2">
+                                    <a>Solicitante:</a>
+                                </div>
+                                <div class="form-group col-md-10">
+                                    <a id="soliR"></a>
+                                </div>
+
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-2">
+                                    <h6 for="text" class="col-form-label" style="color: #4682B4">PACIENTE</h6>
+                                </div>
+                                <div class="form-group col-md-10">
+                                    <hr>
+                                </div>
+                                <div class="form-group col-md-2">
+                                    <a>N° Identificacion:</a>
+                                </div>
+                                <div class="form-group col-md-10">
+                                    <a id="identificacionR"></a>
+                                </div>
+                                <div class="form-group col-md-2">
+                                    <a>Nombre:</a>
+                                </div>
+                                <div class="form-group col-md-10">
+                                    <a id="nombreR"></a>
+                                </div>
+                                <div class="form-group col-md-2">
+                                    <a>Edad:</a>
+                                </div>
+                                <div class="form-group col-md-10">
+                                    <a id="edadR"></a>
+                                </div>
+                                <div class="form-group col-md-2">
+                                    <a>Peso:</a>
+                                </div>
+                                <div class="form-group col-md-10">
+                                    <a id="pesoR"></a>
+                                </div>
+                                <div class="form-group col-md-2">
+                                    <a>Direccion:</a>
+                                </div>
+                                <div class="form-group col-md-10">
+                                    <a id="direccionR"></a>
+                                </div>
+
+                                <div class="form-group col-md-2">
+                                    <a>N° Telefono:</a>
+                                </div>
+                                <div class="form-group col-md-10">
+                                    <a id="telefonoR"></a>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-2">
+                                    <h6 for="text" class="col-form-label" style="color: #4682B4">EXPOSICION</h6>
+                                </div>
+                                <div class="form-group col-md-10">
+                                    <hr>
+                                </div>
+
+                                <div class="form-group col-md-12">
+                                    <div id="divTabla">
+                                        <table class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th>Tóxico</th>
+                                                    <th>Codigo tox</th>
+                                                    <th>Clasificación</th>
+                                                    <th>Cantidad</th>
+                                                    <th>Presentacion</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="tbodyR">
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-2">
+                                    <h6 for="text" class="col-form-label" style="color: #4682B4">SÍNTOMAS</h6>
+                                </div>
+                                <div class="form-group col-md-10">
+                                    <hr>
+                                </div>
+
+                                <div class="form-group col-md-3">
+                                    <ul class="list-group list-group-flush">
+                                        <li class="list-group-control">
+                                            <label class="custom-control material-checkbox">
+                                                <input type="checkbox" class="material-control-input" id="metabolicaR" disabled>
+                                                <span class="material-control-indicator"></span>
+                                                <span class="material-control-description">Alt. metabólicas</span>
+                                            </label>
+                                            <label class="custom-control material-checkbox">
+                                                <input type="checkbox" class="material-control-input" id="alucinacionesR" disabled>
+                                                <span class="material-control-indicator"></span>
+                                                <span class="material-control-description">Alucinaciones</span>
+                                            </label>
+                                            <label class="custom-control material-checkbox">
+                                                <input type="checkbox" class="material-control-input" id="anuriaR" disabled>
+                                                <span class="material-control-indicator"></span>
+                                                <span class="material-control-description">Anuria</span>
+                                            </label>
+                                            <label class="custom-control material-checkbox">
+                                                <input type="checkbox" class="material-control-input" id="arritmiaR" disabled>
+                                                <span class="material-control-indicator"></span>
+                                                <span class="material-control-description">Arritmia</span>
+                                            </label>
+                                            <label class="custom-control material-checkbox">
+                                                <input type="checkbox" class="material-control-input" id="asintomaticoR" disabled>
+                                                <span class="material-control-indicator"></span>
+                                                <span class="material-control-description">Asintomático</span>
+                                            </label>
+                                            <label class="custom-control material-checkbox">
+                                                <input type="checkbox" class="material-control-input" id="ataxiaR" disabled>
+                                                <span class="material-control-indicator"></span>
+                                                <span class="material-control-description">Ataxia</span>
+                                            </label>
+                                            <label class="custom-control material-checkbox">
+                                                <input type="checkbox" class="material-control-input" id="bradicardiaR" disabled>
+                                                <span class="material-control-indicator"></span>
+                                                <span class="material-control-description">Bradicardia</span>
+                                            </label>
+                                            <label class="custom-control material-checkbox">
+                                                <input type="checkbox" class="material-control-input" id="cefaleaR" disabled>
+                                                <span class="material-control-indicator"></span>
+                                                <span class="material-control-description">Cefalea</span>
+                                            </label>
+                                            <label class="custom-control material-checkbox">
+                                                <input type="checkbox" class="material-control-input" id="cianosisR" disabled>
+                                                <span class="material-control-indicator"></span>
+                                                <span class="material-control-description">Cianosis</span>
+                                            </label>
+                                            <label class="custom-control material-checkbox">
+                                                <input type="checkbox" class="material-control-input" id="comaR" disabled>
+                                                <span class="material-control-indicator"></span>
+                                                <span class="material-control-description">Coma</span>
+                                            </label>
+                                            <label class="custom-control material-checkbox">
+                                                <input type="checkbox" class="material-control-input" id="confusionR" disabled>
+                                                <span class="material-control-indicator"></span>
+                                                <span class="material-control-description">Confusión mental</span>
+                                            </label>
+                                            <label class="custom-control material-checkbox">
+                                                <input type="checkbox" class="material-control-input" id="convulsionesR" disabled>
+                                                <span class="material-control-indicator"></span>
+                                                <span class="material-control-description">Convulsiones</span>
+                                            </label>
+                                            <label class="custom-control material-checkbox">
+                                                <input type="checkbox" class="material-control-input" id="debilidadR" disabled>
+                                                <span class="material-control-indicator"></span>
+                                                <span class="material-control-description">Debilidad muscular</span>
+                                            </label>
+                                            <label class="custom-control material-checkbox">
+                                                <input type="checkbox" class="material-control-input" id="diaforesisR" disabled>
+                                                <span class="material-control-indicator"></span>
+                                                <span class="material-control-description">Diaforesis</span>
+                                            </label>
+                                            <label class="custom-control material-checkbox">
+                                                <input type="checkbox" class="material-control-input" id="diarreaR" disabled>
+                                                <span class="material-control-indicator"></span>
+                                                <span class="material-control-description">Diarrea</span>
+                                            </label>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="form-group col-md-3">
+
+                                    <ul class="list-group list-group-flush">
+                                        <li class="list-group-control">
+                                            <label class="custom-control material-checkbox">
+                                                <input type="checkbox" class="material-control-input" id="disneaR" disabled>
+                                                <span class="material-control-indicator"></span>
+                                                <span class="material-control-description">Disnea</span>
+                                            </label>
+                                            <label class="custom-control material-checkbox">
+                                                <input type="checkbox" class="material-control-input" id="dolorR" disabled>
+                                                <span class="material-control-indicator"></span>
+                                                <span class="material-control-description">Dolor</span>
+                                            </label>
+                                            <label class="custom-control material-checkbox">
+                                                <input type="checkbox" class="material-control-input" id="dolorAbdominalR" disabled>
+                                                <span class="material-control-indicator"></span>
+                                                <span class="material-control-description">Dolor abdominal</span>
+                                            </label>
+                                            <label class="custom-control material-checkbox">
+                                                <input type="checkbox" class="material-control-input" id="dolorPechoR" disabled>
+                                                <span class="material-control-indicator"></span>
+                                                <span class="material-control-description">Dolor de pecho</span>
+                                            </label>
+                                            <label class="custom-control material-checkbox">
+                                                <input type="checkbox" class="material-control-input" id="edemaR" disabled>
+                                                <span class="material-control-indicator"></span>
+                                                <span class="material-control-description">Edema</span>
+                                            </label>
+                                            <label class="custom-control material-checkbox">
+                                                <input type="checkbox" class="material-control-input" id="edemaPulmonarR" disabled>
+                                                <span class="material-control-indicator"></span>
+                                                <span class="material-control-description">Edema pulmonar</span>
+                                            </label>
+                                            <label class="custom-control material-checkbox">
+                                                <input type="checkbox" class="material-control-input" id="enrojecimientoR" disabled>
+                                                <span class="material-control-indicator"></span>
+                                                <span class="material-control-description">Enrojecimiento</span>
+                                            </label>
+                                            <label class="custom-control material-checkbox">
+                                                <input type="checkbox" class="material-control-input" id="eritemaR" disabled>
+                                                <span class="material-control-indicator"></span>
+                                                <span class="material-control-description">Eritema</span>
+                                            </label>
+                                            <label class="custom-control material-checkbox">
+                                                <input type="checkbox" class="material-control-input" id="extrapiramidalismoR" disabled>
+                                                <span class="material-control-indicator"></span>
+                                                <span class="material-control-description">Extrapiramidalismo</span>
+                                            </label>
+                                            <label class="custom-control material-checkbox">
+                                                <input type="checkbox" class="material-control-input" id="fiebreR" disabled>
+                                                <span class="material-control-indicator"></span>
+                                                <span class="material-control-description">Fiebre</span>
+                                            </label>
+                                            <label class="custom-control material-checkbox">
+                                                <input type="checkbox" class="material-control-input" id="hipertensionR" disabled>
+                                                <span class="material-control-indicator"></span>
+                                                <span class="material-control-description">Hipertensión</span>
+                                            </label>
+                                            <label class="custom-control material-checkbox">
+                                                <input type="checkbox" class="material-control-input" id="hipotermiaR" disabled>
+                                                <span class="material-control-indicator"></span>
+                                                <span class="material-control-description">Hipotermia</span>
+                                            </label>
+                                            <label class="custom-control material-checkbox">
+                                                <input type="checkbox" class="material-control-input" id="hipotensionR" disabled>
+                                                <span class="material-control-indicator"></span>
+                                                <span class="material-control-description">Hipotensión</span>
+                                            </label>
+                                            <label class="custom-control material-checkbox">
+                                                <input type="checkbox" class="material-control-input" id="lcteriaR" disabled>
+                                                <span class="material-control-indicator"></span>
+                                                <span class="material-control-description">lcteria</span>
+                                            </label>
+                                            <label class="custom-control material-checkbox">
+                                                <input type="checkbox" class="material-control-input" id="irritabilidadR" disabled>
+                                                <span class="material-control-indicator"></span>
+                                                <span class="material-control-description">Irritabilidad</span>
+                                            </label>
+                                        </li>
+                                    </ul>
+                                </div>
+
+                                <div class="form-group col-md-3">
+
+                                    <ul class="list-group list-group-flush">
+                                        <li class="list-group-control">
+                                            <label class="custom-control material-checkbox">
+                                                <input type="checkbox" class="material-control-input" id="irritacionOjosR" disabled>
+                                                <span class="material-control-indicator"></span>
+                                                <span class="material-control-description">Irritación ojos</span>
+                                            </label>
+                                            <label class="custom-control material-checkbox">
+                                                <input type="checkbox" class="material-control-input" id="irritacionOralR" disabled>
+                                                <span class="material-control-indicator"></span>
+                                                <span class="material-control-description">Irritación oral</span>
+                                            </label>
+                                            <label class="custom-control material-checkbox">
+                                                <input type="checkbox" class="material-control-input" id="irritacionPielR" disabled>
+                                                <span class="material-control-indicator"></span>
+                                                <span class="material-control-description">Irritación piel</span>
+                                            </label>
+                                            <label class="custom-control material-checkbox">
+                                                <input type="checkbox" class="material-control-input" id="letargiaR" disabled>
+                                                <span class="material-control-indicator"></span>
+                                                <span class="material-control-description">Letargia</span>
+                                            </label>
+                                            <label class="custom-control material-checkbox">
+                                                <input type="checkbox" class="material-control-input" id="mareoR" disabled>
+                                                <span class="material-control-indicator"></span>
+                                                <span class="material-control-description">Mareos</span>
+                                            </label>
+                                            <label class="custom-control material-checkbox">
+                                                <input type="checkbox" class="material-control-input" id="midriasisR" disabled>
+                                                <span class="material-control-indicator"></span>
+                                                <span class="material-control-description">Midriasis</span>
+                                            </label>
+                                            <label class="custom-control material-checkbox">
+                                                <input type="checkbox" class="material-control-input" id="miosisR" disabled>
+                                                <span class="material-control-indicator"></span>
+                                                <span class="material-control-description">Miosis</span>
+                                            </label>
+                                            <label class="custom-control material-checkbox">
+                                                <input type="checkbox" class="material-control-input" id="nauseasR" disabled>
+                                                <span class="material-control-indicator"></span>
+                                                <span class="material-control-description">Nauseas</span>
+                                            </label>
+                                            <label class="custom-control material-checkbox">
+                                                <input type="checkbox" class="material-control-input" id="neumoniaR" disabled>
+                                                <span class="material-control-indicator"></span>
+                                                <span class="material-control-description">Neumonia</span>
+                                            </label>
+                                            <label class="custom-control material-checkbox">
+                                                <input type="checkbox" class="material-control-input" id="oliguriaR" disabled>
+                                                <span class="material-control-indicator"></span>
+                                                <span class="material-control-description">Oliguria</span>
+                                            </label>
+                                            <label class="custom-control material-checkbox">
+                                                <input type="checkbox" class="material-control-input" id="palidezR" disabled>
+                                                <span class="material-control-indicator"></span>
+                                                <span class="material-control-description">Palidez</span>
+                                            </label>
+                                            <label class="custom-control material-checkbox">
+                                                <input type="checkbox" class="material-control-input" id="parestesiasR" disabled>
+                                                <span class="material-control-indicator"></span>
+                                                <span class="material-control-description">Parestesias</span>
+                                            </label>
+                                            <label class="custom-control material-checkbox">
+                                                <input type="checkbox" class="material-control-input" id="paroCRR" disabled>
+                                                <span class="material-control-indicator"></span>
+                                                <span class="material-control-description">Paro CR</span>
+                                            </label>
+                                            <label class="custom-control material-checkbox">
+                                                <input type="checkbox" class="material-control-input" id="pruritoR" disabled>
+                                                <span class="material-control-indicator"></span>
+                                                <span class="material-control-description">Prurito</span>
+                                            </label>
+                                            <label class="custom-control material-checkbox">
+                                                <input type="checkbox" class="material-control-input" id="quemaduraPielR" disabled>
+                                                <span class="material-control-indicator"></span>
+                                                <span class="material-control-description">Quemadura piel</span>
+                                            </label>
+                                        </li>
+                                    </ul>
+                                </div>
+
+                                <div class="form-group col-md-3">
+
+                                    <ul class="list-group list-group-flush">
+                                        <li class="list-group-control">
+                                            <label class="custom-control material-checkbox">
+                                                <input type="checkbox" class="material-control-input" id="quemaduraOralR" disabled>
+                                                <span class="material-control-indicator"></span>
+                                                <span class="material-control-description">Quemaduras orales</span>
+                                            </label>
+                                            <label class="custom-control material-checkbox">
+                                                <input type="checkbox" class="material-control-input" id="rashR" disabled>
+                                                <span class="material-control-indicator"></span>
+                                                <span class="material-control-description">Rash</span>
+                                            </label>
+                                            <label class="custom-control material-checkbox">
+                                                <input type="checkbox" class="material-control-input" id="rigidezMuscularR" disabled>
+                                                <span class="material-control-indicator"></span>
+                                                <span class="material-control-description">Rigidez muscular</span>
+                                            </label>
+                                            <label class="custom-control material-checkbox">
+                                                <input type="checkbox" class="material-control-input" id="salivacionR" disabled>
+                                                <span class="material-control-indicator"></span>
+                                                <span class="material-control-description">Salivación</span>
+                                            </label>
+                                            <label class="custom-control material-checkbox">
+                                                <input type="checkbox" class="material-control-input" id="sintomasDesR" disabled>
+                                                <span class="material-control-indicator"></span>
+                                                <span class="material-control-description">Sintomas desconocidos</span>
+                                            </label>
+                                            <label class="custom-control material-checkbox">
+                                                <input type="checkbox" class="material-control-input" id="somnolenciaR" disabled>
+                                                <span class="material-control-indicator"></span>
+                                                <span class="material-control-description">Somnolencia</span>
+                                            </label>
+                                            <label class="custom-control material-checkbox">
+                                                <input type="checkbox" class="material-control-input" id="taquicardiaR" disabled>
+                                                <span class="material-control-indicator"></span>
+                                                <span class="material-control-description">Taquicardia</span>
+                                            </label>
+                                            <label class="custom-control material-checkbox">
+                                                <input type="checkbox" class="material-control-input" id="tosR" disabled>
+                                                <span class="material-control-indicator"></span>
+                                                <span class="material-control-description">Tos</span>
+                                            </label>
+                                            <label class="custom-control material-checkbox">
+                                                <input type="checkbox" class="material-control-input" id="tremorsR" disabled>
+                                                <span class="material-control-indicator"></span>
+                                                <span class="material-control-description">Tremors</span>
+                                            </label>
+                                            <label class="custom-control material-checkbox">
+                                                <input type="checkbox" class="material-control-input" id="vertigoR" disabled>
+                                                <span class="material-control-indicator"></span>
+                                                <span class="material-control-description">Vértigo</span>
+                                            </label>
+                                            <label class="custom-control material-checkbox">
+                                                <input type="checkbox" class="material-control-input" id="visionBorrosaR" disabled>
+                                                <span class="material-control-indicator"></span>
+                                                <span class="material-control-description">Visión borrosa</span>
+                                            </label>
+                                            <label class="custom-control material-checkbox">
+                                                <input type="checkbox" class="material-control-input" id="vomitoR" disabled>
+                                                <span class="material-control-indicator"></span>
+                                                <span class="material-control-description">Vomito</span>
+                                            </label>
+
+                                        </li>
+                                    </ul>
+                                </div>
+
+
+
+
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-2">
+                                    <h6 for="text" class="col-form-label" style="color: #4682B4">SIGNOS</h6>
+                                </div>
+                                <div class="form-group col-md-10">
+                                    <hr>
+                                </div>
+                                <div class="form-group col-md-2">
+                                    <a>Presion arterial:</a>
+                                </div>
+                                <div class="form-group col-md-10">
+                                    <a id="presionR"></a>
+                                </div>
+                                <div class="form-group col-md-2">
+                                    <a>Frecuencia cardiaca:</a>
+                                </div>
+                                <div class="form-group col-md-10">
+                                    <a id="frecuenciaR"></a>
+                                </div>
+                                <div class="form-group col-md-2">
+                                    <a>Temperatura:</a>
+                                </div>
+                                <div class="form-group col-md-10">
+                                    <a id="temperaturaR"></a>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-2">
+                                    <h6 for="text" class="col-form-label" style="color: #4682B4">CAUSAS</h6>
+                                </div>
+                                <div class="form-group col-md-10">
+                                    <hr>
+                                </div>
+
+                                <div class="form-row">
+                                    <div class="form-group col-md-4">
+                                        <div class="custom-control custom-switch">
+                                            <input type="checkbox" class="custom-control-input" id="accidenteR" disabled>
+                                            <label class="custom-control-label" for="accidente">Accidente</label>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group col-md-4">
+                                        <div class="custom-control custom-switch">
+                                            <input type="checkbox" class="custom-control-input" id="desconocidaR" disabled>
+                                            <label class="custom-control-label" for="desconocida">Desconocida</label>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group col-md-4">
+                                        <div class="custom-control custom-switch">
+                                            <input type="checkbox" class="custom-control-input" id="otraR" disabled>
+                                            <label class="custom-control-label" for="otra">Otra</label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                        <div class="custom-control custom-switch">
+                                            <input type="checkbox" class="custom-control-input" id="quimicoR" disabled>
+                                            <label class="custom-control-label" for="quimico">Accidente Quimico</label>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group col-md-4">
+                                        <div class="custom-control custom-switch">
+                                            <input type="checkbox" class="custom-control-input" id="terapeuticoR" disabled>
+                                            <label class="custom-control-label" for="terapeutico">Error Terapeutico</label>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group col-md-4">
+                                        <div class="custom-control custom-switch">
+                                            <input type="checkbox" class="custom-control-input" id="reacAlimentosR" disabled>
+                                            <label class="custom-control-label" for="reacAlimentos">Reac. Adv. Alimentos  </label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                        <div class="custom-control custom-switch">
+                                            <input type="checkbox" class="custom-control-input" id="adiccionR" disabled>
+                                            <label class="custom-control-label" for="adiccion">Adiccion</label>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group col-md-4">
+                                        <div class="custom-control custom-switch">
+                                            <input type="checkbox" class="custom-control-input" id="malUsoR" disabled>
+                                            <label class="custom-control-label" for="malUso">Mal Uso</label>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group col-md-4">
+                                        <div class="custom-control custom-switch">
+                                            <input type="checkbox" class="custom-control-input" id="reacMedicamentoR" disabled>
+                                            <label class="custom-control-label" for="reacMedicamento">Reac. Adv. Medicamento</label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                        <div class="custom-control custom-switch">
+                                            <input type="checkbox" class="custom-control-input" id="alimentosR" disabled>
+                                            <label class="custom-control-label" for="alimentos">Alimentos</label>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group col-md-4">
+                                        <div class="custom-control custom-switch">
+                                            <input type="checkbox" class="custom-control-input" id="maliciosaR" disabled>
+                                            <label class="custom-control-label" for="maliciosa">Maliciosa/Delictiva</label>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group col-md-4">
+                                        <div class="custom-control custom-switch">
+                                            <input type="checkbox" class="custom-control-input" id="reacOtrosR" disabled>
+                                            <label class="custom-control-label" for="reacOtros">Reac. Adv. Otros</label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                        <div class="custom-control custom-switch">
+                                            <input type="checkbox" class="custom-control-input" id="ambientalR" disabled>
+                                            <label class="custom-control-label" for="ambiental">Ambiental</label>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group col-md-4">
+                                        <div class="custom-control custom-switch">
+                                            <input type="checkbox" class="custom-control-input" id="folkloricaR" disabled>
+                                            <label class="custom-control-label" for="folklorica">Medic. Folklorica</label>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group col-md-4">
+                                        <div class="custom-control custom-switch">
+                                            <input type="checkbox" class="custom-control-input" id="abortoR" disabled>
+                                            <label class="custom-control-label" for="aborto">Tent. Aborto</label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                        <div class="custom-control custom-switch">
+                                            <input type="checkbox" class="custom-control-input" id="automedicacionR" disabled>
+                                            <label class="custom-control-label" for="automedicacion">Automedicacion</label>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group col-md-4">
+                                        <div class="custom-control custom-switch">
+                                            <input type="checkbox" class="custom-control-input" id="ocupacionalR" disabled>
+                                            <label class="custom-control-label" for="ocupacional">Ocupacional</label>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group col-md-4">
+                                        <div class="custom-control custom-switch">
+                                            <input type="checkbox" class="custom-control-input" id="suicidaR" disabled>
+                                            <label class="custom-control-label" for="suicida">Tent. Suicida</label>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-2">
+                                    <h6 for="text" class="col-form-label" style="color: #4682B4">RUTA</h6>
+                                </div>
+                                <div class="form-group col-md-10">
+                                    <hr>
+                                </div>
+
+                                <div class="form-group col-md-6">
+
+                                    <ul class="list-group list-group-flush">
+                                        <li class="list-group-control">
+                                            <label class="custom-control material-checkbox">
+                                                <input type="checkbox" class="material-control-input" id="desconR" disabled>
+                                                <span class="material-control-indicator"></span>
+                                                <span class="material-control-description">Descon</span>
+                                            </label>
+                                            <label class="custom-control material-checkbox">
+                                                <input type="checkbox" class="material-control-input" id="ingestionR" disabled>
+                                                <span class="material-control-indicator"></span>
+                                                <span class="material-control-description">Ingestion</span>
+                                            </label>
+                                            <label class="custom-control material-checkbox">
+                                                <input type="checkbox" class="material-control-input" id="inhalacionR" disabled>
+                                                <span class="material-control-indicator"></span>
+                                                <span class="material-control-description">Inhalacion</span>
+                                            </label>
+                                            <label class="custom-control material-checkbox">
+                                                <input type="checkbox" class="material-control-input" id="inhalacionPielR" disabled>
+                                                <span class="material-control-indicator"></span>
+                                                <span class="material-control-description">Inh/piel</span>
+                                            </label>
+                                            <label class="custom-control material-checkbox">
+                                                <input type="checkbox" class="material-control-input" id="mordeduraR" disabled>
+                                                <span class="material-control-indicator"></span>
+                                                <span class="material-control-description">Mordedura</span>
+                                            </label>
+                                        </li>
+                                    </ul>
+                                </div>
+
+                                <div class="form-group col-md-6">
+
+                                    <ul class="list-group list-group-flush">
+                                        <li class="list-group-control">
+                                            <label class="custom-control material-checkbox">
+                                                <input type="checkbox" class="material-control-input" id="ojosR" disabled>
+                                                <span class="material-control-indicator"></span>
+                                                <span class="material-control-description">Ojos</span>
+                                            </label>
+                                            <label class="custom-control material-checkbox">
+                                                <input type="checkbox" class="material-control-input" id="otros1R" disabled>
+                                                <span class="material-control-indicator"></span>
+                                                <span class="material-control-description">Otra</span>
+                                            </label>
+                                            <label class="custom-control material-checkbox">
+                                                <input type="checkbox" class="material-control-input" id="parentalR" disabled>
+                                                <span class="material-control-indicator"></span>
+                                                <span class="material-control-description">Parental</span>
+                                            </label>
+                                            <label class="custom-control material-checkbox">
+                                                <input type="checkbox" class="material-control-input" id="picaduraR" disabled>
+                                                <span class="material-control-indicator"></span>
+                                                <span class="material-control-description">Picadura</span>
+                                            </label>
+                                            <label class="custom-control material-checkbox">
+                                                <input type="checkbox" class="material-control-input" id="pielR" disabled>
+                                                <span class="material-control-indicator"></span>
+                                                <span class="material-control-description">Piel</span>
+                                            </label>
+                                        </li>
+                                    </ul>
+                                </div>
+
+
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-4">
+                                    <h6 for="text" class="col-form-label" style="color: #4682B4">TRATAMIENTO/COMENTARIOS</h6>
+                                </div>
+                                <div class="form-group col-md-8">
+                                    <hr>
+                                </div>
+
+                                <div class="form-group col-md-3">
+
+                                    <ul class="list-group list-group-flush">
+                                        <li class="list-group-control">
+                                            <label class="custom-control material-checkbox">
+                                                <input type="checkbox" class="material-control-input" id="agenteTerapeuticoR" disabled>
+                                                <span class="material-control-indicator"></span>
+                                                <span class="material-control-description">Agentes terapéuticos</span>
+                                            </label>
+                                            <label class="custom-control material-checkbox">
+                                                <input type="checkbox" class="material-control-input" id="alalnizaciónR" disabled>
+                                                <span class="material-control-indicator"></span>
+                                                <span class="material-control-description">Alalnización</span>
+                                            </label>
+                                            <label class="custom-control material-checkbox">
+                                                <input type="checkbox" class="material-control-input" id="antidotoR" disabled>
+                                                <span class="material-control-indicator"></span>
+                                                <span class="material-control-description">Antídolo</span>
+                                            </label>
+                                            <label class="custom-control material-checkbox">
+                                                <input type="checkbox" class="material-control-input" id="carbonR" disabled>
+                                                <span class="material-control-indicator"></span>
+                                                <span class="material-control-description">Carbón</span>
+                                            </label>
+                                            <label class="custom-control material-checkbox">
+                                                <input type="checkbox" class="material-control-input" id="carbon4R" disabled>
+                                                <span class="material-control-indicator"></span>
+                                                <span class="material-control-description">Carbón cada 4 horas</span>
+                                            </label>
+                                            <label class="custom-control material-checkbox">
+                                                <input type="checkbox" class="material-control-input" id="cataricoR" disabled>
+                                                <span class="material-control-indicator"></span>
+                                                <span class="material-control-description">Catárico</span>
+                                            </label>
+                                            <label class="custom-control material-checkbox">
+                                                <input type="checkbox" class="material-control-input" id="demulcenteR" disabled>
+                                                <span class="material-control-indicator"></span>
+                                                <span class="material-control-description">Demulcente</span>
+                                            </label>
+                                            <label class="custom-control material-checkbox">
+                                                <input type="checkbox" class="material-control-input" id="descartarTexR" disabled>
+                                                <span class="material-control-indicator"></span>
+                                                <span class="material-control-description">Descartar Téxico</span>
+                                            </label>
+                                            <label class="custom-control material-checkbox">
+                                                <input type="checkbox" class="material-control-input" id="desconocidoR" disabled>
+                                                <span class="material-control-indicator"></span>
+                                                <span class="material-control-description">Desconocido</span>
+                                            </label>
+                                        </li>
+                                    </ul>
+                                </div>
+
+                                <div class="form-group col-md-3">
+
+                                    <ul class="list-group list-group-flush">
+                                        <li class="list-group-control">
+                                            <label class="custom-control material-checkbox">
+                                                <input type="checkbox" class="material-control-input" id="dilucionR" disabled>
+                                                <span class="material-control-indicator"></span>
+                                                <span class="material-control-description">Dilución</span>
+                                            </label>
+                                            <label class="custom-control material-checkbox">
+                                                <input type="checkbox" class="material-control-input" id="exgR" disabled>
+                                                <span class="material-control-indicator"></span>
+                                                <span class="material-control-description">EXG</span>
+                                            </label>
+                                            <label class="custom-control material-checkbox">
+                                                <input type="checkbox" class="material-control-input" id="electrolrosR" disabled>
+                                                <span class="material-control-indicator"></span>
+                                                <span class="material-control-description">Electrolros</span>
+                                            </label>
+                                            <label class="custom-control material-checkbox">
+                                                <input type="checkbox" class="material-control-input" id="endoscopiaR" disabled>
+                                                <span class="material-control-indicator"></span>
+                                                <span class="material-control-description">Endoscopia</span>
+                                            </label>
+                                            <label class="custom-control material-checkbox">
+                                                <input type="checkbox" class="material-control-input" id="glcemaR" disabled>
+                                                <span class="material-control-indicator"></span>
+                                                <span class="material-control-description">Glcema</span>
+                                            </label>
+                                            <label class="custom-control material-checkbox">
+                                                <input type="checkbox" class="material-control-input" id="hemogramaR" disabled>
+                                                <span class="material-control-indicator"></span>
+                                                <span class="material-control-description">Hemograma</span>
+                                            </label>
+                                            <label class="custom-control material-checkbox">
+                                                <input type="checkbox" class="material-control-input" id="lavadoBocaR" disabled>
+                                                <span class="material-control-indicator"></span>
+                                                <span class="material-control-description">Lavado boca</span>
+                                            </label>
+                                            <label class="custom-control material-checkbox">
+                                                <input type="checkbox" class="material-control-input" id="lavadoGastricoR" disabled>
+                                                <span class="material-control-indicator"></span>
+                                                <span class="material-control-description">Lavado géstico</span>
+                                            </label>
+                                            <label class="custom-control material-checkbox">
+                                                <input type="checkbox" class="material-control-input" id="lavadoOjosR" disabled>
+                                                <span class="material-control-indicator"></span>
+                                                <span class="material-control-description">Lavado ojos</span>
+                                            </label>
+                                        </li>
+                                    </ul>
+                                </div>
+
+                                <div class="form-group col-md-3">
+
+                                    <ul class="list-group list-group-flush">
+                                        <li class="list-group-control">
+                                            <label class="custom-control material-checkbox">
+                                                <input type="checkbox" class="material-control-input" id="lavadoPielR" disabled>
+                                                <span class="material-control-indicator"></span>
+                                                <span class="material-control-description">Lavado piel</span>
+                                            </label>
+                                            <label class="custom-control material-checkbox">
+                                                <input type="checkbox" class="material-control-input" id="lecheR" disabled>
+                                                <span class="material-control-indicator"></span>
+                                                <span class="material-control-description">Leche</span>
+                                            </label>
+                                            <label class="custom-control material-checkbox">
+                                                <input type="checkbox" class="material-control-input" id="leucogramaR" disabled>
+                                                <span class="material-control-indicator"></span>
+                                                <span class="material-control-description">Leucograma</span>
+                                            </label>
+                                            <label class="custom-control material-checkbox">
+                                                <input type="checkbox" class="material-control-input" id="ningunoR" disabled>
+                                                <span class="material-control-indicator"></span>
+                                                <span class="material-control-description">Nínguno</span>
+                                            </label>
+                                            <label class="custom-control material-checkbox">
+                                                <input type="checkbox" class="material-control-input" id="nivelesPlasmaR" disabled>
+                                                <span class="material-control-indicator"></span>
+                                                <span class="material-control-description">Niveles plasma-orina</span>
+                                            </label>
+                                            <label class="custom-control material-checkbox">
+                                                <input type="checkbox" class="material-control-input" id="noInducirR" disabled>
+                                                <span class="material-control-indicator"></span>
+                                                <span class="material-control-description">No inducir emesis</span>
+                                            </label>
+                                            <label class="custom-control material-checkbox">
+                                                <input type="checkbox" class="material-control-input" id="observacionR" disabled>
+                                                <span class="material-control-indicator"></span>
+                                                <span class="material-control-description">Observación</span>
+                                            </label>
+                                            <label class="custom-control material-checkbox">
+                                                <input type="checkbox" class="material-control-input" id="otros2R" disabled>
+                                                <span class="material-control-indicator"></span>
+                                                <span class="material-control-description">Otos</span>
+                                            </label>
+                                            <label class="custom-control material-checkbox">
+                                                <input type="checkbox" class="material-control-input" id="oxigenoterapiaR" disabled>
+                                                <span class="material-control-indicator"></span>
+                                                <span class="material-control-description">Oxigenoterapia</span>
+                                            </label>
+                                        </li>
+                                    </ul>
+                                </div>
+
+                                <div class="form-group col-md-3">
+
+                                    <ul class="list-group list-group-flush">
+                                        <li class="list-group-control">
+                                            <label class="custom-control material-checkbox">
+                                                <input type="checkbox" class="material-control-input" id="pfHepaticaR" disabled>
+                                                <span class="material-control-indicator"></span>
+                                                <span class="material-control-description">PF Hepática</span>
+                                            </label>
+                                            <label class="custom-control material-checkbox">
+                                                <input type="checkbox" class="material-control-input" id="pfRenalR" disabled>
+                                                <span class="material-control-indicator"></span>
+                                                <span class="material-control-description">PF Renal</span>
+                                            </label>
+                                            <label class="custom-control material-checkbox">
+                                                <input type="checkbox" class="material-control-input" id="rayosXR" disabled>
+                                                <span class="material-control-indicator"></span>
+                                                <span class="material-control-description">Rayos X</span>
+                                            </label>
+                                            <label class="custom-control material-checkbox">
+                                                <input type="checkbox" class="material-control-input" id="terapiaSoporteR" disabled>
+                                                <span class="material-control-indicator"></span>
+                                                <span class="material-control-description">Terapia de soporte</span>
+                                            </label>
+                                            <label class="custom-control material-checkbox">
+                                                <input type="checkbox" class="material-control-input" id="tierraFullerR" disabled>
+                                                <span class="material-control-indicator"></span>
+                                                <span class="material-control-description">Tierra fuller</span>
+                                            </label>
+                                            <label class="custom-control material-checkbox">
+                                                <input type="checkbox" class="material-control-input" id="tpYtatR" disabled>
+                                                <span class="material-control-indicator"></span>
+                                                <span class="material-control-description">TP y TAT</span>
+                                            </label>
+                                            <label class="custom-control material-checkbox">
+                                                <input type="checkbox" class="material-control-input" id="trasladoStatR" disabled>
+                                                <span class="material-control-indicator"></span>
+                                                <span class="material-control-description">Traslado Stat</span>
+                                            </label>
+                                            <label class="custom-control material-checkbox">
+                                                <input type="checkbox" class="material-control-input" id="veloracionMedicaR" disabled>
+                                                <span class="material-control-indicator"></span>
+                                                <span class="material-control-description">Veloración médica</span>
+                                            </label>
+
+                                        </li>
+                                    </ul>
+                                </div>
+
+                                <div class="form-group col-md-2">
+                                    <a>Observaciones:</a>
+                                </div>
+                                <div class="form-group col-md-10">
+                                    <a id="obserR"></a>
+                                </div>
+                            </div>
+
+
+                            <div class="form-row">
+                                <div class="form-group col-md-12">
+                                    <h3>Desea guardar la informacion ligada a esta consulta?</h3>
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <button type="button" onclick="SendData()">Enviar</button>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+
+                <div style="overflow:auto; visibility:hidden;" id="nextprevious">
                     <div style="float:right;">
                         <br>
                         <button type="button" id="prevBtn" onclick="nextPrev(-1)"><i class="fa fa-angle-double-left"></i></button>
                         <button type="button" id="nextBtn" onclick="nextPrev(1)"><i class="fa fa-angle-double-right"></i></button>
                     </div>
                 </div>
+
+
             </form>
         </div>
     </div>
