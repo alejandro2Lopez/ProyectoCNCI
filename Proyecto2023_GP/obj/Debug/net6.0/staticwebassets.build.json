@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "igaAJfXx77o4bOn7MyfgIvD1YI+aD/NZI+apLvUffwo=",
+  "Hash": "/VZkpncy/qeu7hxwhPrFNAPtOyVSJQQcB2dAUrz2v1o=",
   "Source": "Proyecto2023_GP",
   "BasePath": "_content/Proyecto2023_GP",
   "Mode": "Default",
@@ -100,23 +100,6 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\img\\CCSS-logo.png"
-    },
-    {
-      "Identity": "C:\\Users\\ale1j\\Downloads\\proyecto\\New folder (2)\\Proyecto2023_CNCI\\Proyecto2023_CNCI (1)\\Proyecto2023_CNCI\\Proyecto2023_GP\\wwwroot\\js\\controlador.js",
-      "SourceId": "Proyecto2023_GP",
-      "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\ale1j\\Downloads\\proyecto\\New folder (2)\\Proyecto2023_CNCI\\Proyecto2023_CNCI (1)\\Proyecto2023_CNCI\\Proyecto2023_GP\\wwwroot\\",
-      "BasePath": "_content/Proyecto2023_GP",
-      "RelativePath": "js/controlador.js",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\js\\controlador.js"
     },
     {
       "Identity": "C:\\Users\\ale1j\\Downloads\\proyecto\\New folder (2)\\Proyecto2023_CNCI\\Proyecto2023_CNCI (1)\\Proyecto2023_CNCI\\Proyecto2023_GP\\wwwroot\\js\\site.js",

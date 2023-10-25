@@ -3,7 +3,13 @@
     "",
     "\\Proyecto2023_CNCI",
     "\\Proyecto2023_GP",
-    "\\Proyecto2023_GP\\Models"
+    "\\Proyecto2023_GP\\Controllers",
+    "\\Proyecto2023_GP\\Models",
+    "\\Proyecto2023_GP\\Views",
+    "\\Proyecto2023_GP\\Views\\Home",
+    "\\Proyecto2023_GP\\wwwroot",
+    "\\Proyecto2023_GP\\wwwroot\\js"
   ],
+  "SelectedNode": "\\Proyecto2023_GP.sln",
   "PreviewInSolutionExplorer": false
 }

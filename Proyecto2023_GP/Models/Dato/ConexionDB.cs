@@ -10,12 +10,13 @@ using Proyecto2023_GP.Models.Entidades;
 using System.Data;
 using System.Reflection;
 using System.Diagnostics;
+using System.Collections;
 
 namespace Proyecto2023_GP.Models.Dato
 {
     public class ConexionDB
     {
-        private string connString = "Data Source=DESKTOP-5BP4D4C\\SQLSERVERDEV2019;Initial Catalog=CNCIPrueba;Integrated Security=True;Persist Security Info=False;Pooling=False;MultipleActiveResultSets=False;Encrypt=False;TrustServerCertificate=False";
+        private string connString = "Data Source=DESKTOP-RHK3T75\\SQLEXPRESS;Initial Catalog=CNCIPrueba;Integrated Security=True;Persist Security Info=False;Pooling=False;MultipleActiveResultSets=False;Encrypt=False;TrustServerCertificate=False";
 
         public ConexionDB()
         {
@@ -30,6 +31,46 @@ namespace Proyecto2023_GP.Models.Dato
             return await connection.QueryAsync<Sintoma>(query);
         }
 
+        public async Task<IEnumerable<dynamic>> ListaSintoma()
+        {
+
+
+            using (IDbConnection Conexion = new SqlConnection(connString))
+            {
+                IEnumerable<dynamic> ListaEntidad = Conexion.Query<dynamic>("ListaSintoma").ToList();
+                return ListaEntidad;
+            }
+        }
+		public async Task<IEnumerable<dynamic>> ListaCausa()
+		{
+
+
+			using (IDbConnection Conexion = new SqlConnection(connString))
+			{
+				IEnumerable<dynamic> ListaCausa = Conexion.Query<dynamic>("ListaCausa").ToList();
+				return ListaCausa;
+			}
+		}
+        public async Task<IEnumerable<dynamic>> ListaTratamiento()
+        {
+
+
+            using (IDbConnection Conexion = new SqlConnection(connString))
+            {
+                IEnumerable<dynamic> ListaTratamiento = Conexion.Query<dynamic>("ListaTratamiento").ToList();
+                return ListaTratamiento;
+            }
+        }
+        public async Task<IEnumerable<dynamic>> ListaRuta()
+        {
+
+
+            using (IDbConnection Conexion = new SqlConnection(connString))
+            {
+                IEnumerable<dynamic> ListaRuta = Conexion.Query<dynamic>("ListaRuta").ToList();
+                return ListaRuta;
+            }
+        }
         public async Task<Sintoma> Sintomas(int Id)
         {
             SqlConnection connection = new SqlConnection(connString);
@@ -335,8 +376,46 @@ namespace Proyecto2023_GP.Models.Dato
                 return ListaPregunta;
             }
         }
+        public async Task<IEnumerable<TipoConsulta>> ListaTipoConsulta()
+        {
 
 
+            using (IDbConnection Conexion = new SqlConnection(connString))
+            {
+                IEnumerable<TipoConsulta> ListaConsulta = Conexion.Query<TipoConsulta>("ListaTipoConsulta").ToList();
+                return ListaConsulta;
+            }
+        }
+        public async Task<IEnumerable<TipoAsesoria>> ListaTipoAsesoria()
+        {
+
+
+            using (IDbConnection Conexion = new SqlConnection(connString))
+            {
+                IEnumerable<TipoAsesoria> ListaAsesoria = Conexion.Query<TipoAsesoria>("ListaAsesoria").ToList();
+                return ListaAsesoria;
+            }
+        }
+        public async Task<IEnumerable<Patente>> ListaPatente()
+        {
+
+
+            using (IDbConnection Conexion = new SqlConnection(connString))
+            {
+                IEnumerable<Patente> ListaPatente = Conexion.Query<Patente>("ListaPatente").ToList();
+                return ListaPatente;
+            }
+        }
+        public async Task<IEnumerable<Traslado>> ListaTraslado()
+        {
+
+
+            using (IDbConnection Conexion = new SqlConnection(connString))
+            {
+                IEnumerable<Traslado> ListaTraslado = Conexion.Query<Traslado>("ListaTraslado").ToList();
+                return ListaTraslado;
+            }
+        }
         public async Task<AddToxico> ToxicoAdd (string descripcionTox)
             {
 
@@ -351,8 +430,20 @@ namespace Proyecto2023_GP.Models.Dato
                 return Resultado ;
             }
         }
+        public async Task<IEnumerable<Canton>>ListaCantonesPorProvincia(int provincia)
+        {
+            using (IDbConnection DbConexion = new SqlConnection(connString))
+            {
+                var dynamicParameters = new DynamicParameters();
+                dynamicParameters.Add("Provincia", provincia);
+                IEnumerable< Canton>  Resultado = (await DbConexion.QueryAsync<Canton>("ListaCantones",
+                    param: dynamicParameters,
+                    commandType: CommandType.StoredProcedure)).ToList();
+                return Resultado;
+            }
+        }
 
-      
+
 
         internal void AgregarSintomas(Exposicion dato, Consulta consulta)
         {

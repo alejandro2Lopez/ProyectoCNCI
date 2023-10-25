@@ -79,14 +79,6 @@ namespace Proyecto2023_GP.Controllers
             return Ok("");
         }
 
-        public IActionResult Index()
-
-        {
-            //Sintoma sinmtoma = new Sintoma();
-            //sinmtoma.DescripcionSintoma = "Falta de aire";
-            //conexionDB.AgregarSintoma(sinmtoma.DescripcionSintoma);
-            return View();
-        }
 
         public IActionResult Privacy()
         {
@@ -113,6 +105,15 @@ namespace Proyecto2023_GP.Controllers
             var elemeo = conexionDB.ListaProvincia().Result;
             return Ok(new { data = elemeo });
         }
+
+        public ViewResult Index()
+        {
+            ViewBag.ListaTratamiento = conexionDB.ListaTratamiento().Result;
+            ViewBag.ListaRuta = conexionDB.ListaRuta().Result;
+            ViewBag.ListaCausa = conexionDB.ListaCausa().Result;
+            ViewBag.ListaSintoma = conexionDB.ListaSintoma().Result;
+            return View();
+        }
         public IActionResult ListaToxico()
         {
             var elemeo = conexionDB.ListaToxico().Result;
@@ -134,16 +135,41 @@ namespace Proyecto2023_GP.Controllers
             var elemeo = conexionDB.ListaPregunta().Result;
             return Ok(new { data = elemeo });
         }
-
+        public IActionResult ListaTipoConsulta()
+        {
+            var elemeo = conexionDB.ListaTipoConsulta().Result;
+            return Ok(new { data = elemeo });
+        }
+        public IActionResult ListaPatente()
+        {
+            var elemeo = conexionDB.ListaPatente().Result;
+            return Ok(new { data = elemeo });
+        }
+        public IActionResult ListaAsesoria()
+        {
+            var elemeo = conexionDB.ListaTipoAsesoria().Result;
+            return Ok(new { data = elemeo });
+        }
+        public IActionResult ListaTraslado()
+        {
+            var elemeo = conexionDB.ListaTraslado().Result;
+            return Ok(new { data = elemeo });
+        }
         public IActionResult Addtoxico(string id)
         {
             var elemeo = conexionDB.ToxicoAdd(id).Result;
 
             return Ok(new { data = elemeo });
         }
-    }
-   
 
-}
+        public IActionResult GetListaCantones(int id)
+        {
+            var elemeo = conexionDB.ListaCantonesPorProvincia(id).Result;
+            return Ok(new { data = elemeo });
+        }
+    }
+  
+
+    }
 
 
